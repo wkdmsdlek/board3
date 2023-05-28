@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>게시물 목록</title>
+  <style>
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: pink;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<button class="btn" onclick="location.href='/goToHome'">홈화면으로</button>
+
+<script>
+  function goToHomePage() {
+    window.location.href = 'home.html';
+  }
+</script>
+<h1>게시물 목록</h1>
+<table>
+  <thead>
+  <tr>
+    <th>제목</th>
+    <th>작성자</th>
+    <th>내용</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="board : ${boardList}">
+    <td>
+      <a th:href="@{/read/{bid}(bid=${board.bid})}" th:text="${board.title}"></a>
+    </td>
+    <td th:text="${board.author}"></td>
+    <td th:text="${board.content}"></td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>

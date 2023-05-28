@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>게시물 상세 내용</title>
+  <style>
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: pink;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<h1>게시물 상세 내용</h1>
+
+<div th:if="${board}">
+  <h2 th:text="${board.title}"></h2>
+  <p>작성자: <span th:text="${board.author}"></span></p>
+  <p>내용: <span th:text="${board.content}"></span></p>
+</div>
+
+<a th:href="@{/delete/{bid}(bid=${board.bid})}" class="btn">삭제</a>
+<!-- 수정 버튼 -->
+<a th:href="@{/edit/{bid}(bid=${board.bid})}" class="btn">수정</a>
+
+<a href="/list" class="btn">목록으로 돌아가기</a>
+<!-- Comment form -->
+<!-- Comment form -->
+<form th:action="@{/comment}" method="post">
+  <input type="hidden" name="bid" th:value="${board.bid}" />
+
+  <h2>댓글 작성</h2>
+  <div>
+    <label for="writerName">작성자:</label>
+    <input type="text" id="writerName" name="writerName" required />
+  </div>
+  <div>
+    <label for="comment">댓글 내용:</label>
+    <textarea id="comment" name="comment" rows="4" cols="50" required></textarea>
+  </div>
+  <button type="submit">댓글 작성</button>
+</form>
+
+<!-- 댓글 목록 -->
+<div th:if="${boardCMT != null and not #lists.isEmpty(boardCMT)}">
+  <h2>댓글 목록</h2>
+  <table>
+    <thead>
+    <tr>
+      <th>작성자</th>
+      <th>내용</th>
+      <th>작성 시간</th>
+      <th></th> <!-- 삭제 버튼을 위한 빈 컬럼 -->
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="comment : ${boardCMT}">
+      <td th:text="${comment.writerName}"></td>
+      <td th:text="${comment.cmtContent}"></td>
+      <td th:text="${comment.cmtTime}"></td>
+      <td>
+        <form th:action="@{/comment/delete}" method="post">
+          <input type="hidden" name="bid" th:value="${board.bid}" />
+          <input type="hidden" name="cmtId" th:value="${comment.cmtId}" />
+          <button type="submit">삭제</button>
+        </form>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>
+

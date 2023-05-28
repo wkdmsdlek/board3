@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>home페이지입니다</title>
+  <style>
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: pink;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<h1>Welcome to the Home Page</h1>
+<button class="btn" onclick="location.href='/write'">글 작성하기</button>
+<button class="btn" onclick="location.href='/list'">글 목록</button>
+<h2>최근 게시물 목록</h2>
+<ul>
+    <li th:each="board : ${latestBoards}">
+        <a th:href="@{/read/{bid}(bid=${board.bid})}" th:text="${board.title}"></a>
+    </li>
+</ul>
+
+</body>
+</html>
